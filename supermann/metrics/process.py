@@ -116,10 +116,12 @@ def state(sender, process, data):
 
     - ``process:{name}:state``
     """
+    statename = data['statename'].lower()
+
     sender.riemann.event(
         service='process:{name}:state'.format(**data),
-        state=data['statename'].lower(),
-        metric_f=0.0)
+        state=statename,
+        metric_f=(1.0 if statename == "running" else 0.0))
 
 
 def uptime(sender, process, data):
